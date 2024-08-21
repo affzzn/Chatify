@@ -3,6 +3,7 @@ const router = express.Router();
 import User from "../models/User.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import verifyJWT from "../middlewares/verifyJWT.middleware.js";
 
 router.post("/register", async (req, res) => {
   try {
@@ -71,6 +72,15 @@ router.post("/login", async (req, res) => {
     });
   } catch (error) {
     console.error("Login error:", error);
+  }
+});
+
+router.get("/verify", verifyJWT, async (req, res, next) => {
+  try {
+    res.status(200).json({ message: "success", user: req.user });
+  } catch (error) {
+    console.error("Verify error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

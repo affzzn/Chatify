@@ -1,7 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Home() {
+  useEffect(() => {
+    const verifyUser = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8000/chat/user/verify",
+          {
+            headers: {
+              Authorization: `Bearer ${window.localStorage.getItem(
+                "chat-token"
+              )}`,
+            },
+          }
+        );
+        if (response.data.message === "success") {
+          window.location.href = "/chat";
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    verifyUser();
+  }, []);
+
   return (
     <div className="flex items-center justify-center h-screen  bg-slate-300">
       <div className="text-center">

@@ -19,6 +19,10 @@ app.use(
 app.options("*", cors()); // Enable pre-flight requests for all routes
 
 app.use("/chat/user", authRouter);
+
+
+
+
 const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
