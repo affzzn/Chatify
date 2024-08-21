@@ -1,20 +1,46 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Ensure you're using react-router for navigation
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [username, setUsername] = React.useState("");
-  const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [profileImage, setProfileImage] = React.useState(null);
+  // const [profileImage, setProfileImage] = React.useState(null);
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/chat/user/register",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json", // Ensure the correct content type
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      if (response.data.message === "success") {
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
-  const handleFileChange = (e) => {
-    setProfileImage(e.target.files[0]);
-  };
+  // const handleFileChange = (e) => {
+  //   setProfileImage(e.target.files[0]);
+  // };
 
   return (
     <div className="flex items-center justify-center h-screen bg-slate-300">
@@ -35,18 +61,7 @@ function Register() {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div>
-            <label htmlFor="email" className="block text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
+
           <div>
             <label htmlFor="password" className="block text-gray-700">
               Password
@@ -59,7 +74,7 @@ function Register() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div>
+          {/* <div>
             <label htmlFor="profileImage" className="block text-gray-700">
               Profile Image
             </label>
@@ -69,7 +84,7 @@ function Register() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               onChange={handleFileChange}
             />
-          </div>
+          </div> */}
           <button className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
             Register
           </button>
