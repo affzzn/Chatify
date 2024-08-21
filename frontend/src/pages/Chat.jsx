@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 function Chat() {
   const navigate = useNavigate();
@@ -16,13 +17,16 @@ function Chat() {
         }
       } catch (error) {
         console.error("Error:", error);
-        navigate("/login");
       }
     };
     verifyUser();
   }, []);
 
-  return <div className="text-3xl text-blue-500 text-center mt-5">Chat</div>;
+  return (
+    <div>
+      <Sidebar />
+    </div>
+  );
 }
 
 export default Chat;

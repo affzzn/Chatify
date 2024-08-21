@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import dbConnect from "./db/dbConnect.js";
 import authRouter from "./routes/auth.js";
+import userRouter from "./routes/user.js";
 
 const app = express();
 
@@ -20,8 +21,7 @@ app.options("*", cors()); // Enable pre-flight requests for all routes
 
 app.use("/chat/user", authRouter);
 
-
-
+app.use("/chat/users", userRouter);
 
 const PORT = process.env.PORT || 8000;
 
