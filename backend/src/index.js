@@ -6,7 +6,10 @@ import dbConnect from "./db/dbConnect.js";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
 
-const app = express();
+// socket.io
+import { app, server } from "./socket/socket.js";
+
+// const app = express();
 
 app.use(express.json());
 app.use(
@@ -25,7 +28,7 @@ app.use("/chat/users", userRouter);
 
 const PORT = process.env.PORT || 8000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   dbConnect();
   console.log(`Server is running on port ${PORT}`);
 });
