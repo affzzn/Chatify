@@ -9,7 +9,7 @@ Chatify is a real-time one-on-one chat application built using MongoDB, Express,
 ## Features
 
 - **Real-Time Messaging**: Utilize [Socket.IO](https://socket.io/) for instant message delivery.
-- **User Authentication**: Secure user login and registration.
+- **User Authentication**: Secure user login and registration using JWT.
 - **Chat History**: View past conversations and continue discussions.
 
 ## Live Demo
