@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { IoPersonCircleSharp } from "react-icons/io5";
+import { IoLogOut, IoPersonCircleSharp } from "react-icons/io5";
 
-function Sidebar({ setChatInitiated }) {
+function Sidebar({ setChatInitiated, setChats, setReceiverId }) {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [activeUserId, setActiveUserId] = useState(null); // Track the active user
 
   const fetchUsers = async () => {
     try {
@@ -46,41 +47,79 @@ function Sidebar({ setChatInitiated }) {
 
   console.log(users);
 
-  const startChat = (userId) => {
+  const startChat = async (userId) => {
+    try {
+      console.log(userId);
+
+      const response = await axios.get(
+        `http://localhost:8000/chat/message/read/${userId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${window.localStorage.getItem(
+              "chat-token"
+            )}`,
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      if (response.status === 404) {
+        setChats([]); // If no messages are found, set chats to an empty array
+      } else {
+        setChats(response.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setChats([]); // Handle case where no messages are found
+    }
+
+    setReceiverId(userId); // Make sure this is called
     setChatInitiated(true);
+    setActiveUserId(userId); // Set the active user for UI
   };
 
-  const handleLogout = () => {};
-
+  const handleLogout = () => {
+    window.localStorage.removeItem("chat-token");
+    window.localStorage.removeItem("userId");
+    navigate("/");
+  };
   return (
-    <div className="w-1/4 bg-white p-4 border-r border-gray-300 rounded-2xl mt-2 ml-2 mb-2 mr-1">
-      <input
-        type="text"
-        placeholder="Search"
-        className="w-full mb-4 p-2 border border-gray-300 rounded"
-      />
-      <div className="space-y-4">
-        {users.length > 0 ? (
-          users.map((u) => (
-            <div
-              onClick={() => startChat(u._id)}
-              key={u._id}
-              className="flex items-center space-x-2 p-2 hover:bg-slate-200 cursor-pointer"
-            >
-              <IoPersonCircleSharp size={30} className="text-blue-500" />
-              <p className="text-gray-800">{u.username}</p>
-            </div>
-          ))
-        ) : (
-          <p>No users found</p>
-        )}
+    <div className="w-1/4 bg-white p-4 border-r border-gray-300 rounded-2xl mt-2 ml-2 mb-2 mr-1 flex flex-col h-full">
+      <h1 className="text-3xl font-bold p-2 text-blue-500">Chatify</h1>
+      <div className="flex-grow">
+        <input
+          type="text"
+          placeholder="Search"
+          className="w-full mb-4 p-2 border border-gray-300 rounded-2xl"
+        />
+        <div className="space-y-4">
+          {users.length > 0 ? (
+            users.map((u) => (
+              <div
+                onClick={() => startChat(u._id)}
+                key={u._id}
+                className={`flex items-center space-x-2 p-2 cursor-pointer rounded-lg ${
+                  activeUserId === u._id
+                    ? "bg-blue-100 hover:bg-blue-200"
+                    : "hover:bg-blue-200"
+                }`}
+              >
+                <IoPersonCircleSharp size={30} className="text-blue-500" />
+                <p className="text-gray-800">{u.username}</p>
+              </div>
+            ))
+          ) : (
+            <p>No users found</p>
+          )}
+        </div>
       </div>
-
       <button
         onClick={handleLogout}
-        className="w-full mt-4 p-2 bg-slate-400 text-white rounded-lg hover:bg-slate-500 transition"
+        className="mt-4 p-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 size-12 transition max-w-10"
       >
-        Logout
+        <IoLogOut />
       </button>
     </div>
   );

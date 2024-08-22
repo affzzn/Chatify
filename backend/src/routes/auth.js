@@ -62,7 +62,7 @@ router.post("/login", async (req, res) => {
     // generate a token
     // this id is from mongodb user id: _id
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "3d",
     });
 
     res.status(200).json({

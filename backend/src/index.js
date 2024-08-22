@@ -5,6 +5,7 @@ dotenv.config();
 import dbConnect from "./db/dbConnect.js";
 import authRouter from "./routes/auth.js";
 import userRouter from "./routes/user.js";
+import messageRouter from "./routes/message.js";
 
 // socket.io
 import { app, server } from "./socket/socket.js";
@@ -25,6 +26,8 @@ app.options("*", cors()); // Enable pre-flight requests for all routes
 app.use("/chat/user", authRouter);
 
 app.use("/chat/users", userRouter);
+
+app.use("/chat/message", messageRouter);
 
 const PORT = process.env.PORT || 8000;
 
