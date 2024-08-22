@@ -35,18 +35,18 @@ function ChatBox({ receiverId, chats, setChats }) {
     }
   };
   return (
-    <div className="absolute bottom-0 left-0 right-0 p-4 bg-white border-t border-gray-300">
+    <div className="absolute bottom-0 left-0 right-0 p-4">
       <form onSubmit={sendMessage} className="flex items-center max-w-full">
         <input
           type="text"
           value={message}
           placeholder="Type a message..."
           onChange={(e) => setMessage(e.target.value)}
-          className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-14 m-1"
+          className="flex-grow p-2 border border-gray-300 rounded-r-lg rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-14 m-1"
         />
         <button
           type="submit"
-          className="p-3 rounded-r-lg size-14 text-2xl  bg-slate-400 text-white rounded-lg hover:bg-slate-500 transition"
+          className="p-3 rounded-r-lg size-12 text-2xl  bg-slate-400 text-white rounded-lg hover:bg-slate-500 transition"
         >
           <IoSend />
         </button>

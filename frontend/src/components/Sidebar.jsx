@@ -86,7 +86,7 @@ function Sidebar({ setChatInitiated, setChats, setReceiverId }) {
     navigate("/");
   };
   return (
-    <div className="w-1/4 bg-white p-4 border-r border-gray-300 rounded-2xl mt-2 ml-2 mb-2 mr-1 flex flex-col h-full">
+    <div className="w-1/4 bg-gray-100 p-4 border-r border-gray-300 rounded-2xl mt-2 ml-2 mb-2 mr-1 flex flex-col h-full">
       <h1 className="text-3xl font-bold p-2 text-blue-500">Chatify</h1>
       <div className="flex-grow">
         <input
