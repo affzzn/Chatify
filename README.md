@@ -4,7 +4,7 @@
   <img src="frontend/public/chatify_logo.png" alt="Chatify Logo" style="display: block; margin: auto; width: 220px" />
 </p>
 
-Chatify is a real-time one-on-one chat application built using the MERN stack (MongoDB, Express, React, Node.js) and [Socket.IO](https://socket.io/) for real-time messaging. It allows users to engage in real-time conversations with each other seamlessly.
+Chatify is a real-time one-on-one chat application built using MongoDB, Express, React, Node.js and [Socket.IO](https://socket.io/) for real-time messaging. It allows users to engage in real-time conversations with each other seamlessly.
 
 ## Features
 
